@@ -16,6 +16,7 @@ d3.json("samples.json").then(function(data){
     // Iterating over the samples in the data and storing the top 10 otu data into arrays
     data.samples.forEach(element => {
 
+        // Pushing sample_values into data array
         data_array[0].push(element.sample_values.slice(0,10));
 
         // Converting the otu labels into string
@@ -24,27 +25,46 @@ d3.json("samples.json").then(function(data){
             
             id_array.push(element.otu_ids.slice(0,10)[i].toString());
         };
-
+        // Pushing otu_id data into data array
         data_array[1].push(id_array);
 
+        // Pushing label data into data array
         data_array[2].push(element.otu_labels.slice(0,10))
 
     
-        console.log(data_array);
+        
 
 
     });
 
-    //for (var i = 0; i < data_array[1][1].length; i++){
-      //  data_array[1][1][i] = data_array[1][1][i].toString();
-    //}
+    //Generating a static bar chart
+    var static_bar = [{
 
-    //test_arr[0].push([1,2,3,4,5,6,7,8,9,10]);
+        type: 'bar' ,
+        x: data_array[0][1] ,
+        y: data_array[1][1] ,
+        orientation: 'h'
 
-    //for( var i = 0; i < test_arr[0][1].length; i++){
-    //    test_arr[0][1][i] = test_arr[0][1][i].toString()
-    //}
+    }];
 
+    Plotly.newPlot('bar', static_bar, {
+        title: 'Top 10 OTU/Sample',
+        xaxis: {
+          title: 'OTU Count'
+        },
+        yaxis: {
+          title: 'OTU ID',
+          dtick: 1
+        },
+        margin: {
+          l: 200
+        }
+      })
+
+    console.log(data_array[1][1])
+    console.log(data_array[0][1])
+
+    
 
 
 
