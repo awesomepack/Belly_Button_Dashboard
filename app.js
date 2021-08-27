@@ -42,7 +42,7 @@ d3.json("samples.json").then(function(data){
 
         type: 'bar' ,
         x: data_array[0][1] ,
-        y: data_array[1][1] ,
+        y: data_array[1][1].map(x => "OTU" + x) ,
         orientation: 'h'
 
     }];
@@ -61,8 +61,8 @@ d3.json("samples.json").then(function(data){
         }
       })
 
-    console.log(data_array[1][1])
     console.log(data_array[0][1])
+    console.log()
 
     
 
