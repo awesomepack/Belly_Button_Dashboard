@@ -15,19 +15,19 @@ d3.json("samples.json").then(function(data){
     data.samples.forEach(element => {
 
         // Pushing sample_values into data array
-        data_array[0].push(element.sample_values.slice(0,10));
+        data_array[0].push(element.sample_values);
 
         // Converting the otu labels into string
         var id_array = []; // stores the otu_id strings
-        for (i = 0; i < element.otu_ids.slice(0,10).length; i++){
+        for (i = 0; i < element.otu_ids.length; i++){
             
-            id_array.push(element.otu_ids.slice(0,10)[i].toString());
+            id_array.push(element.otu_ids[i].toString());
         };
         // Pushing otu_id data into data array
         data_array[1].push(id_array);
 
         // Pushing label data into data array
-        data_array[2].push(element.otu_labels.slice(0,10))
+        data_array[2].push(element.otu_labels)
 
     
         
@@ -39,8 +39,8 @@ d3.json("samples.json").then(function(data){
     var static_bar = [{
 
         type: 'bar' ,
-        x: data_array[0][1] ,
-        y: data_array[1][1].map(x => "OTU" + x) ,
+        x: data_array[0][1].slice(0,10) ,
+        y: data_array[1][1].slice(0,10).map(x => "OTU" + x) ,
         orientation: 'h'
 
     }];
@@ -62,8 +62,12 @@ d3.json("samples.json").then(function(data){
     //console.log(data_array[0][1])
     //console.log()
 
-  // Calling the updateGraph function when the selector is changed
-  d3.selectAll("#selDataset").on("change" , updateGraph);
+
+
+  // update plotly function
+function updatePlotly(newdata){
+  Plotly.restyle("bar" , "values" , [newdata])
+}   
 
 // Defining the updateGraph function
 function updateGraph(){
@@ -90,10 +94,9 @@ function updateGraph(){
 
 }
 
-// update plotly function
-function updatePlotly(newdata){
-  Plotly.restyle("bar" , "values" , [newdata])
-}    
+  // Calling the updateGraph function when the selector is changed
+  d3.selectAll("#selDataset").on("change" , updateGraph);
+ 
 
 
 
