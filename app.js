@@ -6,11 +6,9 @@ d3.json("samples.json").then(function(data){
 
     // Confirming the data was passed succesfully
     console.log(data);
-
-// Static Bar Chart
     
     // Creating an Array to hold sample_values , otu_ids , otu_labels
-    // Contains a list of sample arrays , withth first element being a header
+    // Contains a list of sample arrays , with the first element being a header
     var data_array = [['values'],['ids'], ['labels']]
 
     // Iterating over the samples in the data and storing the top 10 otu data into arrays
@@ -35,9 +33,9 @@ d3.json("samples.json").then(function(data){
         
 
 
-    });
+     });
 
-    //Generating a static bar chart
+    // The default bar chart
     var static_bar = [{
 
         type: 'bar' ,
@@ -61,10 +59,41 @@ d3.json("samples.json").then(function(data){
         }
       })
 
-    console.log(data_array[0][1])
-    console.log()
+    //console.log(data_array[0][1])
+    //console.log()
 
-    
+  // Calling the updateGraph function when the selector is changed
+  d3.selectAll("#selDataset").on("change" , updateGraph);
+
+// Defining the updateGraph function
+function updateGraph(){
+
+  var dropdownMenu = d3.select("#selDataset");
+
+  // Assign the dropdown value to a variable
+  var sample = dropdownMenu.property("value")
+
+  // initializing data array
+  var data = [];
+
+  // switching data based on dropdown value
+  if (sample == 'sample1'){
+    data = data_array[0][1]
+  }
+
+  else if (sample == 'sample2'){
+    data = data_array[0][2]
+  }
+
+  // calling function to update chart
+  updatePlotly(data);
+
+}
+
+// update plotly function
+function updatePlotly(newdata){
+  Plotly.restyle("bar" , "values" , [newdata])
+}    
 
 
 
