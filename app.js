@@ -4,18 +4,19 @@
 
 d3.json("samples.json").then(function(data){
 
-    // Confirming the data was passed succesfully
-    console.log(data);
     
-    // Creating an Array to hold sample_values , otu_ids , otu_labels
-    // Contains a list of sample arrays , with the first element being a header
-    var data_array = [['values'],['ids'], ['labels']]
+    console.log(data); // logging data to console
+    
+    // Array to hold patient_id,sample_values , otu_ids , 'labels'
+    var data_array = [['patient_id'],['values'],['ids'], ['labels']];
 
     // Iterating over the samples in the data and storing the top 10 otu data into arrays
     data.samples.forEach(element => {
 
+        data_array[0].push(element.id); // Pushing patient id
+
         // Pushing sample_values into data array
-        data_array[0].push(element.sample_values);
+        data_array[1].push(element.sample_values);
 
         // Converting the otu labels into string
         var id_array = []; // stores the otu_id strings
@@ -24,10 +25,10 @@ d3.json("samples.json").then(function(data){
             id_array.push(element.otu_ids[i].toString());
         };
         // Pushing otu_id data into data array
-        data_array[1].push(id_array);
+        data_array[2].push(id_array);
 
         // Pushing label data into data array
-        data_array[2].push(element.otu_labels)
+        data_array[3].push(element.otu_labels)
 
     
         
@@ -39,8 +40,8 @@ d3.json("samples.json").then(function(data){
     var static_bar = [{
 
         type: 'bar' ,
-        x: data_array[0][1].slice(0,10) ,
-        y: data_array[1][1].slice(0,10).map(x => "OTU" + x) ,
+        x: data_array[1][1].slice(0,10) ,
+        y: data_array[2][1].slice(0,10).map(x => "OTU" + x) ,
         orientation: 'h'
 
     }];
