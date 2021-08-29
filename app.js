@@ -4,11 +4,6 @@
 
 d3.json("samples.json").then(function(data){
 
-    
-    console.log(data);
-    
-
-
 // < Begin Data storing  >  
 
     // Array to hold patient_id,sample_values , otu_ids , 'labels'
@@ -43,10 +38,6 @@ d3.json("samples.json").then(function(data){
 // generating default graphs
 init(data_array[1][1],data_array[2][1], data_array[3][1] , data_array[4][0])
 
-// Event listener for the dropdown menu
-d3.selectAll('#selDataset').on('change' , optionChanged());
-
-console.log(data_array[0])
 
 // Populating the select div with options
 for (i = 1; i < data_array[0].length;i++){
@@ -56,6 +47,11 @@ for (i = 1; i < data_array[0].length;i++){
   new_option.attr('value' , data_array[0][i]) // sample_id as value
 
 }
+
+// call the optionChanged() function when DOM is altered
+d3.select('#selDataset').on('change' , optionChanged())
+
+console.log(d3.select('#selDataset').property('value')) // identifies the current value of selection
 
 });
 // < End Scope of Data >
@@ -113,22 +109,14 @@ function init(xData , yData , lData , mData){
 // or how to pass data when event occurs
 
 // < Begin optionChanged >
-function optionChanged(xData , yData , lData , mData){
+function optionChanged(){
+  console.log('A Changed occurred');
 
-  var dropdownMenu = d3.select('#selDataset');
+  var dropDown = d3.select('#selDataset');
+  var curr_value = dropDown.property('value');
 
-  var dataset = dropdownMenu.property('value');
-
-  var value_data = [];
-
-  if (dataset == 'data1'){
-    value_data = xData;
-  }
-  else if (dataset == 'data2'){
-    value_data = xData;
-  }
-  
-    
+  // Compare the value of curr_value to our sample_id
+  // if a match occurs update with the samples data
 
 
 
@@ -137,9 +125,3 @@ function optionChanged(xData , yData , lData , mData){
  }
 // < End optionChanged >
 
-
-
-
-
-
-//init()
