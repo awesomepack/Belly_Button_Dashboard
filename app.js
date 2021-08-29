@@ -114,27 +114,36 @@ function optionChanged(dataset){
   var dropDown = d3.select('#selDataset');
   var curr_value = dropDown.property('value');
 
-  var xData = [];
-  var yData = [];
-
-
-
   // Compare the value of curr_value to our patient_id
   //if a match occurs update with the samples data
   for (i = 1; i < dataset[0].length;i++){
 
     if (curr_value == dataset[0][i]){
       
-      xData = dataset[1][i].slice(0,10);
-      yData = dataset[2][i].slice(0,10).map(otu => 'otu:' + otu);
+      xData = dataset[1][i];
+      yData = dataset[2][i];
+      lData = dataset[3][i];
+      mData = dataset[4][i+1];
     }
 
   }
-  console.log(curr_value)
+  // console.log(curr_value)
+  // console.log(xData)
+  // console.log(yData)
 
-  // Restyling the chart with new data
-  Plotly.restyle('bar' , 'x' , [xData]);
-  Plotly.restyle('bar' , 'y' , [yData])
+  // Restyling bar
+  Plotly.restyle('bar' , 'x' , [xData.slice(0,10)]);
+  Plotly.restyle('bar' , 'y' , [yData.slice(0,10).map(otu => 'otu' + otu)]);
+
+  // Restyling bubble
+  Plotly.restyle('bubble' , 'x' , [xData]);
+  Plotly.restyle('bubble' , 'y' , [yData]);
+  Plotly.restyle('bubble' , 'size' , [xData]);
+  Plotly.restyle('bubble' , 'color' , [yData]);
+
+  // Updating the metadata
+  
+
   
 
 
