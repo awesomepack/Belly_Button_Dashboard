@@ -43,12 +43,19 @@ d3.json("samples.json").then(function(data){
 // generating default graphs
 init(data_array[1][1],data_array[2][1], data_array[3][1] , data_array[4][0])
 
-console.log(Object.entries(data_array[4][0]))
+// Event listener for the dropdown menu
+d3.selectAll('#selDataset').on('change' , optionChanged());
 
-// for (i = 0; i < 7; i++){
-//   console.log(Object.entries(data_array[4][0])[i])
-// }
+console.log(data_array[0])
 
+// Populating the select div with options
+for (i = 1; i < data_array[0].length;i++){
+
+  var new_option = d3.select('select').append('option');
+  new_option.text(data_array[0][i]) // sample_id as text
+  new_option.attr('value' , data_array[0][i]) // sample_id as value
+
+}
 
 });
 // < End Scope of Data >
@@ -97,36 +104,29 @@ function init(xData , yData , lData , mData){
     console.log(Object.entries(mData)[i])
   }
 
-
-  //var li1 = d3.select('ul').append('li');
-  //li1.text('Hello World')
-
-
 };
 // < End function init >
 
 
+// Defining the optionChanged() function called during a DOM change
+// Need to figure out how to call within the scope of the data
+// or how to pass data when event occurs
 
-
-// Event listener for the dropdown menu
-//d3.selectAll('#selDataset').on('change' , optionChanged());
-
-// Defining the getData() function called during a DOM change
 // < Begin optionChanged >
-// function optionChanged(){
+function optionChanged(xData , yData , lData , mData){
 
-//   var dropdownMenu = d3.select('#selDataset');
+  var dropdownMenu = d3.select('#selDataset');
 
-//   var dataset = dropdownMenu.property('value');
+  var dataset = dropdownMenu.property('value');
 
-//   var value_data = [];
+  var value_data = [];
 
-//   if (dataset == 'data1'){
-//     value_data = data_array[1][1].slice(0,10);
-//   }
-//   else if (dataset == 'data2'){
-//     value_data = data_array[1][2].slice(0,10);
-//   }
+  if (dataset == 'data1'){
+    value_data = xData;
+  }
+  else if (dataset == 'data2'){
+    value_data = xData;
+  }
   
     
 
@@ -134,7 +134,7 @@ function init(xData , yData , lData , mData){
 
 
 
-// }
+ }
 // < End optionChanged >
 
 
