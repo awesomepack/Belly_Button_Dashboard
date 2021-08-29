@@ -6,6 +6,7 @@ d3.json("samples.json").then(function(data){
 
     
     console.log(data);
+    
 
 
 // < Begin Data storing  >  
@@ -33,10 +34,20 @@ d3.json("samples.json").then(function(data){
         // Pushing label data into data array
         data_array[3].push(element.otu_labels)
      });
+
+     // pushing metadata into data array
+     data_array.push(data.metadata)
+
 // < End Data storing >
 
 // generating default graphs
-init(data_array[1][1],data_array[2][1], data_array[3][1])
+init(data_array[1][1],data_array[2][1], data_array[3][1] , data_array[4][0])
+
+console.log(Object.entries(data_array[4][0]))
+
+// for (i = 0; i < 7; i++){
+//   console.log(Object.entries(data_array[4][0])[i])
+// }
 
 
 });
@@ -44,9 +55,9 @@ init(data_array[1][1],data_array[2][1], data_array[3][1])
 
 
 // < Begin function init() >
-function init(xData , yData , lData){
+function init(xData , yData , lData , mData){
 
-  // default bar chart
+  // Default bar chart
   var bar_data = [{
     x: xData.slice(0,10)  , 
     y: yData.slice(0,10).map(otu => 'OTU: ' + otu),
@@ -60,7 +71,7 @@ function init(xData , yData , lData){
 
   Plotly.newPlot('bar' , bar_data , bar_layout);
 
-  // Bubble chart
+  // Default Bubble chart
   var bubble_data = [{
     x: yData , 
     y: xData ,
@@ -74,6 +85,21 @@ function init(xData , yData , lData){
   }]
 
   Plotly.newPlot('bubble' , bubble_data)
+
+  // Default Meta Data
+
+  // Iterate over the metadata of the first sample and create a new list
+  // of the key and value pairs
+  for (i = 0; i < 7; i++){
+
+    var new_li = d3.select('ul').append('li');
+    new_li.text(Object.entries(mData)[i])
+    console.log(Object.entries(mData)[i])
+  }
+
+
+  //var li1 = d3.select('ul').append('li');
+  //li1.text('Hello World')
 
 
 };
