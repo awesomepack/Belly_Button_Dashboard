@@ -49,7 +49,7 @@ for (i = 1; i < data_array[0].length;i++){
 }
 
 // call the optionChanged() function when DOM is altered
-d3.select('#selDataset').on('change' , optionChanged())
+d3.select('#selDataset').on('change' , optionChanged(data_array))
 
 console.log(d3.select('#selDataset').property('value')) // identifies the current value of selection
 
@@ -97,7 +97,6 @@ function init(xData , yData , lData , mData){
 
     var new_li = d3.select('ul').append('li');
     new_li.text(Object.entries(mData)[i])
-    console.log(Object.entries(mData)[i])
   }
 
 };
@@ -109,19 +108,28 @@ function init(xData , yData , lData , mData){
 // or how to pass data when event occurs
 
 // < Begin optionChanged >
-function optionChanged(){
+function optionChanged(dataset){
   console.log('A Changed occurred');
 
   var dropDown = d3.select('#selDataset');
   var curr_value = dropDown.property('value');
 
-  // Compare the value of curr_value to our sample_id
+  // Compare the value of curr_value to our patient_id
   // if a match occurs update with the samples data
+  for (i = 1; i < dataset[0].length;i++){
 
+    if (curr_value == dataset[0][i]){
+      curr_value = dataset[0][i];
+      console.log(curr_value)
+    }
+
+
+  }
+
+  
 
 
 
 
  }
 // < End optionChanged >
-
