@@ -36,7 +36,7 @@ d3.json("samples.json").then(function(data){
 // < End Data storing >
 
 // generating default graphs
-init(data_array[1][1],data_array[2][1].slice(0,10))
+init(data_array[1][1],data_array[2][1], data_array[3][1])
 
 
 });
@@ -44,7 +44,7 @@ init(data_array[1][1],data_array[2][1].slice(0,10))
 
 
 // < Begin function init() >
-function init(xData , yData){
+function init(xData , yData , lData){
 
   // default bar chart
   var bar_data = [{
@@ -54,21 +54,26 @@ function init(xData , yData){
     orientation: 'h'
   }];
 
-  var layout = {
+  var bar_layout = {
     title: 'Top Ten OTUs'
   };
 
-  Plotly.newPlot('bar' , bar_data , layout);
+  Plotly.newPlot('bar' , bar_data , bar_layout);
 
   // Bubble chart
-  // var bubble_data = [{
-  //   x: xBubbleData , 
-  //   y: yBubbleData ,
-  //   mode: 'markers' ,
-  //   marker:{
-  //     size: sizing
-  //   }
-  // }]
+  var bubble_data = [{
+    x: yData , 
+    y: xData ,
+    text: lData ,
+    mode: 'markers' ,
+    marker:{
+      size: xData ,
+      color: yData
+    }
+    
+  }]
+
+  Plotly.newPlot('bubble' , bubble_data)
 
 
 };
