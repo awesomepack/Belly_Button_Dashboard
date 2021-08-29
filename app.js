@@ -5,8 +5,11 @@
 d3.json("samples.json").then(function(data){
 
     
-    console.log(data); // logging data to console
-    
+    console.log(data);
+
+
+// < Begin Data storing  >  
+
     // Array to hold patient_id,sample_values , otu_ids , 'labels'
     var data_array = [['patient_id'],['values'],['ids'], ['labels']];
 
@@ -29,100 +32,83 @@ d3.json("samples.json").then(function(data){
 
         // Pushing label data into data array
         data_array[3].push(element.otu_labels)
-
-    
-        
-
-
      });
+// < End Data storing >
 
-    // The default bar chart
-    var static_bar = [{
-
-        type: 'bar' ,
-        x: data_array[1][1].slice(0,10) ,
-        y: data_array[2][1].slice(0,10).map(x => "OTU" + x) ,
-        orientation: 'h'
-
-    }];
-
-    Plotly.newPlot('bar', static_bar, {
-        title: 'Top 10 OTU/Sample',
-        xaxis: {
-          title: 'OTU Count'
-        },
-        yaxis: {
-          title: 'OTU ID',
-          dtick: 1
-        },
-        margin: {
-          l: 200
-        }
-      })
-
-    //console.log(data_array[0][1])
-    //console.log()
-
-
-
-  // update plotly function
-function updatePlotly(newdata){
-  Plotly.restyle("bar" , "values" , [newdata])
-}   
-
-// Defining the updateGraph function
-function updateGraph(){
-
-  var dropdownMenu = d3.select("#selDataset");
-
-  // Assign the dropdown value to a variable
-  var sample = dropdownMenu.property("value")
-
-  // initializing data array
-  var data = [];
-
-  // switching data based on dropdown value
-  if (sample == 'sample1'){
-    data = data_array[0][1]
-  }
-
-  else if (sample == 'sample2'){
-    data = data_array[0][2]
-  }
-
-  // calling function to update chart
-  updatePlotly(data);
-
-}
-
-  // Calling the updateGraph function when the selector is changed
-  d3.selectAll("#selDataset").on("change" , updateGraph);
- 
-
-
-
-
-
-  
-
-    
-
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+// generating default graphs
+init(data_array[1][1],data_array[2][1].slice(0,10))
 
 
 });
+// < End Scope of Data >
+
+
+// < Begin function init() >
+function init(xData , yData){
+
+  // default bar chart
+  var bar_data = [{
+    x: xData.slice(0,10)  , 
+    y: yData.slice(0,10).map(otu => 'OTU: ' + otu),
+    type: 'bar' ,
+    orientation: 'h'
+  }];
+
+  var layout = {
+    title: 'Top Ten OTUs'
+  };
+
+  Plotly.newPlot('bar' , bar_data , layout);
+
+  // Bubble chart
+  // var bubble_data = [{
+  //   x: xBubbleData , 
+  //   y: yBubbleData ,
+  //   mode: 'markers' ,
+  //   marker:{
+  //     size: sizing
+  //   }
+  // }]
+
+
+};
+// < End function init >
+
+
+
+
+// Event listener for the dropdown menu
+//d3.selectAll('#selDataset').on('change' , optionChanged());
+
+// Defining the getData() function called during a DOM change
+// < Begin optionChanged >
+// function optionChanged(){
+
+//   var dropdownMenu = d3.select('#selDataset');
+
+//   var dataset = dropdownMenu.property('value');
+
+//   var value_data = [];
+
+//   if (dataset == 'data1'){
+//     value_data = data_array[1][1].slice(0,10);
+//   }
+//   else if (dataset == 'data2'){
+//     value_data = data_array[1][2].slice(0,10);
+//   }
+  
+    
+
+
+
+
+
+// }
+// < End optionChanged >
+
+
+
+
+
+
+//init()
